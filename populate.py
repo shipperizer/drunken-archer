@@ -3,17 +3,17 @@ import os
 def populate():
     python_cat = add_cat('Python')
 
-    add_page(cat=python_cat,title="Official Python Tutorial", url="http://docs.python.org/2/tutorial/")
-    add_page(cat=python_cat,title="How to Think like a Computer Scientist", url="http://www.greenteapress.com/thinkpython/")
-    add_page(cat=python_cat,title="Learn Python in 10 Minutes",url="http://www.korokithakis.net/tutorials/python/")
+    add_page(cat=python_cat,title="Official Python Tutorial", url="http://docs.python.org/2/tutorial/", views=56)
+    add_page(cat=python_cat,title="How to Think like a Computer Scientist", url="http://www.greenteapress.com/thinkpython/",views=98)
+    add_page(cat=python_cat,title="Learn Python in 10 Minutes",url="http://www.korokithakis.net/tutorials/python/",views=15)
     
     django_cat = add_cat("Django")
-    add_page(cat=django_cat,title="Official Django Tutorial",url="https://docs.djangoproject.com/en/1.5/intro/tutorial01/")
-    add_page(cat=django_cat,title="Django Rocks",url="http://www.djangorocks.com/")
+    add_page(cat=django_cat,title="Official Django Tutorial",url="https://docs.djangoproject.com/en/1.5/intro/tutorial01/",views=540)
+    add_page(cat=django_cat,title="Django Rocks",url="http://www.djangorocks.com/",views=89)
     add_page(cat=django_cat,title="How to Tango with Django",url="http://www.tangowithdjango.com/")
 
     frame_cat = add_cat("Other Frameworks")
-    add_page(cat=frame_cat,title="Bottle",url="http://bottlepy.org/docs/dev/")
+    add_page(cat=frame_cat,title="Bottle",url="http://bottlepy.org/docs/dev/",views=1001)
     add_page(cat=frame_cat,title="Flask",url="http://flask.pocoo.org")
 
     # Print out what we have added to the user.

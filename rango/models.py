@@ -10,6 +10,12 @@ class Category(models.Model):
     def __unicode__(self):
         return self.name
 
+    def decode_url(self):
+        return self.name.replace('_',' ')
+
+    def encode_to_url(self):
+        return self.name.replace(' ','_')
+
     class Meta(object):
         verbose_name_plural = "Categories"                
 
