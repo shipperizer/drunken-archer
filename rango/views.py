@@ -2,10 +2,10 @@ from django.shortcuts import render_to_response, render
 from django.template import RequestContext
 
 from rango.models import Category, Page 
-from rango.forms import CategoryForm
+from rango.forms import CategoryForm, PageForm
 
 
-import utils
+from rango.utils import encode_to_url, decode_url
 
 # Create your views here.
 
@@ -20,8 +20,8 @@ def index(request):
 
 def category(request, category_name_url):
     context = RequestContext(request)
-    category_name = utils.encode_to_url(category_name_url)
-    context_dict = {'category_name': category_name}
+    category_name = decode_url(category_name_url)
+    context_dict = {'category_name': category_name,'category_name_url':category_name_url}
     try:
         category = Category.objects.get(name=category_name)    
         pages = Page.objects.filter(category=category)
@@ -46,3 +46,24 @@ def add_category(request):
     else:
         form = CategoryForm()
     return render_to_response('rango/add_category.html', {'form': form}, context)
+
+def add_page(request, category_name_url):
+    context = RequestContext(request)
+    category_name = decode_url(category_name_url)
+    if request.method == 'POST':
+        form = PageForm(request.POST)
+        if form.is_valid():
+            page = form.save(commit=False)
+            try:
+                cat = Category.objects.get(name=category_name)
+                page.category = cat
+            except Category.DoesNotExist:
+                return render_to_response('rango/add_category.html', {}, context)
+            page.views = 0
+            page.save()
+            return category(request, category_name_url)
+        else:
+            print form.errors
+    else:
+        form = PageForm()
+    return render_to_response( 'rango/add_page.html',{'category_name_url': category_name_url,'category_name': category_name,'form': form}, context)    
