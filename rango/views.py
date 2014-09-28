@@ -10,15 +10,28 @@ from rango.forms import CategoryForm, PageForm, UserForm, UserProfileForm
 
 from rango.utils import encode_to_url, decode_url
 
+from datetime import datetime
+
 # Create your views here.
 
 def index(request):
     context = RequestContext(request)
+    
     category_list = Category.objects.order_by('-likes')[:5]
-    pages_list = Page.objects.order_by('-views')[:5]
-    context_dict = {'categories': category_list, 'pages': pages_list}
     for category in category_list:
         category.url = category.encode_to_url()
+    pages_list = Page.objects.order_by('-views')[:5]
+    context_dict = {'categories': category_list, 'pages': pages_list}
+
+    if request.session.get('last_visit'):
+        last_visit_time = request.session.get('last_visit')
+        visits = request.session.get('visits', 0)
+        if (datetime.now() - datetime.strptime(last_visit_time[:-7], "%Y-%m-%d %H:%M:%S")).days > 0:
+            request.session['visits'] = visits + 1
+            request.session['last_visit'] = str(datetime.now())
+    else:
+        request.session['last_visit'] = str(datetime.now())
+        request.session['visits'] = 1
     return render_to_response('rango/index.html', context_dict, context)
 
 def category(request, category_name_url):
@@ -35,7 +48,11 @@ def category(request, category_name_url):
     return render_to_response('rango/category.html', context_dict, context)
 
 def about(request):
-    return render(request, "rango/about.html")
+    if request.session.get('visits'):
+        count = request.session.get('visits')
+    else:
+        count = 0
+    return render_to_response('rango/about.html', {'visits': count}, context)
 
 @login_required
 def add_category(request):
