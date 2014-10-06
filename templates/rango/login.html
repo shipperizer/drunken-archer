@@ -2,12 +2,25 @@
 
 {% block body_block %}
         <h1>Login to Rango</h1>
-        <form id="login_form" method="post" action="/rango/login/">
+        <form id="login_form" class="form-horizontal well" method="post" action="/rango/login/">
+            <fieldset>
             {% csrf_token %}
-            Username: <input type="text" name="username" value="" size="50" />
-            <br />
-            Password: <input type="password" name="password" value="" size="50" />
-            <br />
-            <input type="submit" value="submit" />
+	            <div class="control-group">
+	            	<label class="control-label">Username:</label> 
+	            	<div class="controls">
+	            		<input type="text" class="form-control" name="username" value="" size="50" />
+	            	</div>
+	            </div>
+	            <div class="control-group">
+	            	<label class="control-label">Password:</label> 
+	            	<div class="controls">
+	            	    <input type="password" class="form-control" name="password" value="" size="50" />
+	            	</div>
+	            </div>
+	            <hr>
+	            <div class="form-actions">
+	            	<button type="submit" class="btn btn-primary">Submit</button>
+	            </div>
+            </fieldset>
         </form>
 {% endblock %}

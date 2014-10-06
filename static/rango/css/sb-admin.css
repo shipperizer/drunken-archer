@@ -36,6 +36,7 @@ body {
 @media(min-width:768px) {
     #wrapper {
         padding-left: 225px;
+        overflow: hidden;
     }
 
     #page-wrapper {
@@ -52,6 +53,7 @@ body {
 .top-nav>li {
     display: inline-block;
     float: left;
+    margin: 5px 0px;
 }
 
 .top-nav>li>a {
@@ -124,6 +126,7 @@ ul.alert-dropdown {
         border-radius: 0;
         overflow-y: auto;
         background-color: #222;
+        height:600px;
     }
 
     .side-nav>li>a {
