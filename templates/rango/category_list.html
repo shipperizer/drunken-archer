@@ -1,0 +1,9 @@
+{% load staticfiles %}
+
+{% block cat_block %}
+{% if cat_list %}
+   	{% for category in cat_list %}
+    <li><a href="/rango/category/{{ category.url }}"><i class="fa fa-fw fa-bar-chart-o">{{ category.name }}</i></a></li>
+    {% endfor %}
+{% endif %}
+{% endblock %}

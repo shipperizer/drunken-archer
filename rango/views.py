@@ -18,11 +18,9 @@ from datetime import datetime
 def index(request):
     context = RequestContext(request)
     
-    category_list = Category.objects.order_by('-likes')[:5]
-    for category in category_list:
-        category.url = category.encode_to_url()
+    category_list = get_category_list()
     pages_list = Page.objects.order_by('-views')[:5]
-    context_dict = {'categories': category_list, 'pages': pages_list}
+    context_dict = {'cat_list': category_list, 'pages': pages_list}
 
     if request.session.get('last_visit'):
         last_visit_time = request.session.get('last_visit')
@@ -38,7 +36,14 @@ def index(request):
 def category(request, category_name_url):
     context = RequestContext(request)
     category_name = decode_url(category_name_url)
-    context_dict = {'category_name': category_name,'category_name_url':category_name_url}
+    category_list = get_category_list()
+    context_dict = {'cat_list': category_list,'category_name': category_name,'category_name_url':category_name_url}
+    result_list=[]
+    if request.method == 'POST':
+        query = request.POST['query'].strip()
+        if query:
+            result_list = run_query(query)
+        context_dict['result_list']= result_list    
     try:
         category = Category.objects.get(name=category_name)    
         pages = Page.objects.filter(category=category)
@@ -146,3 +151,10 @@ def user_login(request):
 def user_logout(request):
     logout(request)
     return redirect('/rango/')
+
+# Helpers
+def get_category_list():
+    category_list = Category.objects.order_by('-likes')[:5]
+    for category in category_list:
+        category.url = category.encode_to_url()
+    return category_list           
