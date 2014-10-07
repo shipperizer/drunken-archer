@@ -56,3 +56,5 @@ target/
 # Database
 *.sqlite3
 
+# Keys
+*.key

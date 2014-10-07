@@ -8,6 +8,7 @@ from rango.models import Category, Page
 from rango.forms import CategoryForm, PageForm, UserForm, UserProfileForm
 
 
+from rango.bing_search import run_query
 from rango.utils import encode_to_url, decode_url
 
 from datetime import datetime
@@ -54,6 +55,15 @@ def about(request):
     else:
         count = 0
     return render_to_response('rango/about.html', {'visits': count}, context)
+
+def search(request):
+    context = RequestContext(request)
+    result_list = []
+    if request.method == 'POST':
+        query = request.POST['query'].strip()
+        if query:
+            result_list = run_query(query)
+    return render_to_response('rango/search.html', {'result_list': result_list}, context)
 
 @login_required
 def add_category(request):

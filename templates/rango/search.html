@@ -1,0 +1,42 @@
+{% extends "rango/base.html" %}
+
+{% load static %}
+
+{% block title %}Search{% endblock %}
+
+{% block body_block %}
+<div class="search-box">
+    <h1>Search with Rango</h1>
+    <br/>
+    <form  class="form-horizontal well" id="user_form" method="post" action="/rango/search/">
+        <fieldset>
+        {% csrf_token %}
+            <div class="control-group">
+                <div class="controls">
+                    <input type="text" id="query" class="form-control" name="query" value="" size="50" />
+                </div>
+            </div>
+            <hr>
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+        </fieldset>
+    </form>
+    {% if result_list %}
+        <!-- Display search results in an ordered list -->
+        <div style="clear: both;">
+            <ol>
+            {% for result in result_list %}
+                <li>
+                    <strong><a href="{{ result.link }}">{{ result.title }}</a></strong><br />
+                    <em>{{ result.summary }}</em>
+                </li>
+            {% endfor %}
+            </ol>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+
+
