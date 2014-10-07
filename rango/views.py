@@ -48,6 +48,7 @@ def category(request, category_name_url):
     return render_to_response('rango/category.html', context_dict, context)
 
 def about(request):
+    context = RequestContext(request)
     if request.session.get('visits'):
         count = request.session.get('visits')
     else:
